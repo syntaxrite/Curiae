@@ -1,4 +1,3 @@
-// hello
 "use client";
 
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
@@ -30,7 +29,7 @@ function PostHogBootstrap({ children }: { children: React.ReactNode }) {
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth as any}>
         <PostHogBootstrap>{children}</PostHogBootstrap>
       </ConvexProviderWithClerk>
     </ClerkProvider>
