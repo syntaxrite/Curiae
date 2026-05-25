@@ -1,4 +1,3 @@
-// hello
 import { v } from "convex/values";
 import { query } from "./_generated/server";
 import { createFallbackRights } from "../lib/rights";
@@ -13,9 +12,8 @@ export const getRightsByCountryAndCategory = query({
   handler: async (ctx, args): Promise<ApiResult<RightsRecord>> => {
     const existing = await ctx.db
       .query("rightsContent")
-      .withIndex("by_country_category", (q) =>
-        q.eq("country", args.country).eq("category", args.category)
-      )
+      .withIndex("by_country_category", (q) => q.eq("country", args.country))
+      .filter((q) => q.eq(q.field("category"), args.category))
       .unique();
 
     if (!existing) {
