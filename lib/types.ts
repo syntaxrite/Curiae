@@ -1,8 +1,3 @@
-// hello
----
-
-**lib/types.ts**
-```ts
 export type ApiResult<T> = {
   success: boolean;
   data: T;
@@ -108,3 +103,6 @@ export type SidebarLink = {
   href: string;
   label: string;
 };
+
+// Dummy export to guarantee this file is a module
+export type __Dummy = string;
