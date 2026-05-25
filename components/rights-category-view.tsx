@@ -1,4 +1,3 @@
-// hello
 "use client";
 
 import { useQuery } from "convex/react";
@@ -7,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { createFallbackRights, rightsCategoryLabel, rightsCategorySummary } from "@/lib/rights";
 import { getCountryLabel } from "@/lib/constants";
+import type { RightsRecord } from "@/lib/types";
 
 type RightsCategoryViewProps = {
   country: string;
@@ -15,7 +15,7 @@ type RightsCategoryViewProps = {
 
 export function RightsCategoryView({ country, category }: RightsCategoryViewProps) {
   const result = useQuery(api.rights.getRightsByCountryAndCategory, { country, category });
-  const rights = result?.data ?? createFallbackRights(country, category);
+  const rights: RightsRecord = result?.data ?? createFallbackRights(country, category);
   const title = rightsCategoryLabel(category);
   const summary = rightsCategorySummary(category);
 
@@ -58,7 +58,7 @@ export function RightsCategoryView({ country, category }: RightsCategoryViewProp
             <CardTitle>Rights</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3">
-            {rights.rights.map((item, index) => (
+            {rights.rights.map((item: string, index: number) => (
               <div key={`${item}-${index}`} className="rounded-2xl border border-border bg-white p-4 text-sm leading-6 text-text-primary">
                 {item}
               </div>
@@ -71,7 +71,7 @@ export function RightsCategoryView({ country, category }: RightsCategoryViewProp
             <CardTitle>Exceptions</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3">
-            {rights.exceptions.map((item, index) => (
+            {rights.exceptions.map((item: string, index: number) => (
               <div key={`${item}-${index}`} className="rounded-2xl border border-border bg-surface p-4 text-sm leading-6 text-text-primary">
                 {item}
               </div>
@@ -84,7 +84,7 @@ export function RightsCategoryView({ country, category }: RightsCategoryViewProp
             <CardTitle>Action steps</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3">
-            {rights.actionSteps.map((item, index) => (
+            {rights.actionSteps.map((item: string, index: number) => (
               <div key={`${item}-${index}`} className="rounded-2xl border border-border bg-white p-4 text-sm leading-6 text-text-primary">
                 <span className="mr-2 font-semibold text-accent">{index + 1}.</span>
                 {item}
