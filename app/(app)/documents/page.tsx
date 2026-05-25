@@ -13,8 +13,8 @@ import type { Jurisdiction } from "@/lib/types";
 export default function DocumentsPage() {
   const { userId, isLoaded } = useAuth();
   const clerkId = userId ?? "";
-  const userResult = useQuery(api.users.getUserByClerkId as never, { clerkId });
-  const documentsResult = useQuery(api.documents.getDocumentsByUser as never, { userId: clerkId, limit: 20 });
+  const userResult = useQuery(api.users.getUserByClerkId, { clerkId });
+  const documentsResult = useQuery(api.documents.getDocumentsByUser, { userId: clerkId, limit: 20 });
 
   const user = userResult?.data ?? null;
   const documents = documentsResult?.data ?? [];

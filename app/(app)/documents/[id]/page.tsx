@@ -16,7 +16,7 @@ type Params = {
 export default function DocumentDetailPage() {
   const params = useParams<Params>();
   const id = params.id;
-  const documentResult = useQuery(api.documents.getDocumentById as never, { documentId: id });
+  const documentResult = useQuery(api.documents.getDocumentById, { documentId: id });
   const document = documentResult?.data ?? null;
 
   if (!document) {

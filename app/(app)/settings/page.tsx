@@ -14,8 +14,8 @@ export default function SettingsPage() {
   const { userId, isLoaded } = useAuth();
   const { user } = useUser();
   const clerkId = userId ?? "";
-  const userResult = useQuery(api.users.getUserByClerkId as never, { clerkId });
-  const updateJurisdiction = useMutation(api.users.updateJurisdiction as never);
+  const userResult = useQuery(api.users.getUserByClerkId, { clerkId });
+  const updateJurisdiction = useMutation(api.users.updateJurisdiction);
   const current = userResult?.data ?? null;
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction>({
     country: "uk",
