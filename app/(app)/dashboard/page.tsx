@@ -8,6 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime, truncate } from "@/lib/utils";
+import { DocumentRecord, QueryRecord } from "@/lib/types";
 
 export default function DashboardPage() {
   const { userId, isLoaded } = useAuth();
@@ -17,8 +18,8 @@ export default function DashboardPage() {
   const documentsResult = useQuery(api.documents.getDocumentsByUser, { userId: userKey, limit: 5 });
 
   const user = userResult?.data ?? null;
-  const queries = queriesResult?.data ?? [];
-  const documents = documentsResult?.data ?? [];
+  const queries: QueryRecord[] = queriesResult?.data ?? [];
+  const documents: DocumentRecord[] = documentsResult?.data ?? [];
 
   const deepCount = queries.filter((item) => item.type === "deep").length;
   const flaggedCount = queries.filter((item) => item.riskFlagged).length;
@@ -105,7 +106,7 @@ export default function DashboardPage() {
               <CardDescription>Jump straight into Curiae from the dashboard.</CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/ask" className="inline-flex w-full items-center justify-center rounded-2xl border border-accent bg-accent px-4 py-3 text-sm font-medium text-white hover:bg-accent-hover">
+              <Link href="/ask" className="inline-flex w-full items-center justify-center rounded-2xl border border-accent bg-accent px-4 py-3 text-sm font-medium text-white hover:bg-accent-hover[...]
                 Open ask page
               </Link>
             </CardContent>
