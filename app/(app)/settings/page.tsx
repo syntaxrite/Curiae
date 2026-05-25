@@ -1,4 +1,3 @@
-// hello
 "use client";
 
 import { useEffect, useState } from "react";
@@ -90,4 +89,4 @@ export default function SettingsPage() {
       </div>
     </div>
   );
-              }
+}
