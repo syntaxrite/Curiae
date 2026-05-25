@@ -1,4 +1,3 @@
-// hello
 "use client";
 
 import { useMemo, useState } from "react";
@@ -8,13 +7,14 @@ import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime, truncate } from "@/lib/utils";
+import type { QueryRecord } from "@/lib/types";
 
 export default function HistoryPage() {
   const { userId, isLoaded } = useAuth();
   const clerkId = userId ?? "";
   const [filter, setFilter] = useState<"all" | "standard" | "deep">("all");
   const result = useQuery(api.queries.getQueriesByUser, { userId: clerkId, limit: 100 });
-  const queries = result?.data ?? [];
+  const queries: QueryRecord[] = result?.data ?? [];
 
   const filtered = useMemo(() => {
     if (filter === "all") {
@@ -76,4 +76,4 @@ export default function HistoryPage() {
       </Card>
     </div>
   );
-        }
+}
