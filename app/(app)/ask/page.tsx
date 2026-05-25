@@ -1,10 +1,10 @@
-// hello
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { useAction, useQuery } from "convex/react";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "@/convex/_generated/api";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,9 +18,9 @@ import { isRiskFlagged } from "@/lib/constants";
 export default function AskPage() {
   const { userId, isLoaded } = useAuth();
   const clerkId = userId ?? "";
-  const userResult = useQuery(api.users.getUserByClerkId as never, { clerkId });
-  const askStandard = useAction(api.ai.askStandard as never);
-  const askDeep = useAction(api.ai.askDeep as never);
+  const userResult = useQuery(api.users.getUserByClerkId, { clerkId });
+  const askStandard = useAction(api.ai.askStandard);
+  const askDeep = useAction(api.ai.askDeep);
 
   const user = userResult?.data ?? null;
 
@@ -196,4 +196,4 @@ export default function AskPage() {
       </div>
     </div>
   );
-        }
+}
