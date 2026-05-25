@@ -1,4 +1,3 @@
-// hello
 "use client";
 
 import Link from "next/link";
@@ -8,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime, truncate } from "@/lib/utils";
-import { DocumentRecord, QueryRecord } from "@/lib/types";
+import type { QueryRecord, DocumentRecord } from "@/lib/types";
 
 export default function DashboardPage() {
   const { userId, isLoaded } = useAuth();
@@ -80,66 +79,3 @@ export default function DashboardPage() {
             {queries.length ? (
               queries.map((item) => (
                 <Link
-                  href="/history"
-                  key={item._id}
-                  className="rounded-2xl border border-border bg-white p-4 transition-colors hover:bg-surface"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm font-medium text-text-primary">{truncate(item.question, 90)}</p>
-                    <Badge tone={item.type === "deep" ? "default" : "muted"}>{item.type}</Badge>
-                  </div>
-                  <p className="mt-2 text-xs text-text-muted">{formatDateTime(item.createdAt)}</p>
-                </Link>
-              ))
-            ) : (
-              <div className="rounded-2xl border border-dashed border-border bg-surface p-5 text-sm text-text-secondary">
-                No queries yet. Ask your first question to create a record.
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <div className="grid gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick ask</CardTitle>
-              <CardDescription>Jump straight into Curiae from the dashboard.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/ask" className="inline-flex w-full items-center justify-center rounded-2xl border border-accent bg-accent px-4 py-3 text-sm font-medium text-white hover:bg-accent-hover[...]
-                Open ask page
-              </Link>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Saved documents</CardTitle>
-              <CardDescription>Recent uploads and their analysis status.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-3">
-              {documents.length ? (
-                documents.map((document) => (
-                  <Link
-                    href={`/documents/${document._id}`}
-                    key={document._id}
-                    className="rounded-2xl border border-border bg-white p-4 hover:bg-surface"
-                  >
-                    <p className="text-sm font-medium text-text-primary">{document.fileName}</p>
-                    <p className="mt-1 text-xs text-text-muted">
-                      {document.analysis ? "Analysis complete" : "Awaiting analysis"} • {formatDateTime(document.createdAt)}
-                    </p>
-                  </Link>
-                ))
-              ) : (
-                <div className="rounded-2xl border border-dashed border-border bg-surface p-5 text-sm text-text-secondary">
-                  Upload a document to analyze it here.
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
-                      }
