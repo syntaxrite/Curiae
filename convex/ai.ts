@@ -1,4 +1,3 @@
-// hello
 import { v } from "convex/values";
 import { action } from "./_generated/server";
 import { api } from "./_generated/api";
@@ -139,7 +138,7 @@ export const askStandard = action({
     const answer = await callGemini("gemini-2.0-flash", `${prompt}\n\nQuestion: ${args.question}`, apiKey, 256);
     const riskFlagged = isRiskFlagged(args.question);
 
-    await ctx.runMutation(api.queries.saveQuery as never, {
+    await ctx.runMutation(api.queries.saveQuery, {
       userId: args.userId,
       question: args.question,
       response: answer,
@@ -163,105 +162,4 @@ export const askDeep = action({
   handler: async (ctx, args): Promise<ApiResult<CuriaeDeepResponse>> => {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return fail<CuriaeDeepResponse>("Missing GEMINI_API_KEY.", {
-        summary: "",
-        redFlags: [],
-        actionSteps: [],
-        lawyerNeeded: "",
-        jurisdictionNote: "",
-        disclaimer:
-          "This is not legal advice. Curiae is an AI tool. Curiae provides legal information, not legal representation. Consult a qualified lawyer for serious matters.",
-        urgent: false,
-        raw: ""
-      });
-    }
-
-    const prompt = buildDeepPrompt(args.country, args.state);
-    const urgent = isRiskFlagged(args.question);
-    const prefixedQuestion = urgent
-      ? `URGENT: This situation may require immediate licensed legal advice. Consult a qualified lawyer before taking any action.\n\nQuestion: ${args.question}`
-      : `Question: ${args.question}`;
-
-    const raw = await callGemini("gemini-1.5-pro", `${prompt}\n\n${prefixedQuestion}`, apiKey, 2048);
-    const parsed = parseDeepResponse(raw);
-
-    await ctx.runMutation(api.queries.saveQuery as never, {
-      userId: args.userId,
-      question: args.question,
-      response: raw,
-      country: args.country,
-      state: args.state,
-      type: "deep",
-      riskFlagged: urgent
-    });
-
-    return ok<CuriaeDeepResponse>(parsed);
-  }
-});
-
-export const analyzeDocument = action({
-  args: {
-    userId: v.string(),
-    documentId: v.string(),
-    storageId: v.string(),
-    fileName: v.string(),
-    country: v.string(),
-    state: v.optional(v.string())
-  },
-  handler: async (ctx, args): Promise<ApiResult<DocumentAnalysisResponse>> => {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return fail<DocumentAnalysisResponse>("Missing GEMINI_API_KEY.", {
-        extraction: "",
-        analysis: "",
-        urgent: false
-      });
-    }
-
-    const storageUrl = await ctx.storage.getUrl(args.storageId);
-    if (!storageUrl) {
-      return fail<DocumentAnalysisResponse>("Unable to resolve document storage URL.", {
-        extraction: "",
-        analysis: "",
-        urgent: false
-      });
-    }
-
-    const extractedText = await extractDocumentText(storageUrl, args.fileName);
-    const urgent = isRiskFlagged(extractedText);
-
-    const extractionPrompt = [
-      "Extract the key legal facts, dates, names, obligations, deadlines, money amounts, and parties from this document.",
-      "Return concise plain English bullet points.",
-      `Country: ${args.country}`,
-      args.state ? `State / region: ${args.state}` : "State / region: not provided",
-      "",
-      extractedText.slice(0, 12000)
-    ].join("\n");
-
-    const extraction = await callGemini("gemini-2.0-flash", extractionPrompt, apiKey, 700);
-
-    const analysisPrompt = [
-      buildDeepPrompt(args.country, args.state),
-      "",
-      "Document extraction:",
-      extraction,
-      "",
-      "Now analyze the document as Curiae. Focus on legal meaning, deadlines, risks, and concrete next steps."
-    ].join("\n");
-
-    const analysisRaw = await callGemini("gemini-1.5-pro", analysisPrompt, apiKey, 2048);
-    const parsed = parseDeepResponse(analysisRaw);
-
-    await ctx.runMutation(api.documents.updateDocumentAnalysis as never, {
-      documentId: args.documentId,
-      analysis: analysisRaw
-    });
-
-    return ok<DocumentAnalysisResponse>({
-      extraction,
-      analysis: parsed.raw,
-      urgent
-    });
-  }
-});
+      return fail<CuriaeDeepRespon
