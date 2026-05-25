@@ -1,4 +1,3 @@
-// hello
 "use client";
 
 import { useState } from "react";
@@ -145,4 +144,4 @@ export function DocumentUpload({ userId, jurisdiction, onUploaded }: DocumentUpl
       </CardContent>
     </Card>
   );
-    }
+}
