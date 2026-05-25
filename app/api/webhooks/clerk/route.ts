@@ -46,13 +46,13 @@ export async function POST(request: Request) {
 
     const client = new ConvexHttpClient(convexUrl);
     const email = event.data.email_addresses?.[0]?.email_address ?? "";
-    const result = await client.mutation(api.users.createUser as never, {
+    const result = await client.mutation(api.users.createUser, {
       clerkId: event.data.id,
       email
     });
 
     if (result.success) {
-      await client.action(api.email.sendWelcomeEmail as never, {
+      await client.action(api.email.sendWelcomeEmail, {
         email,
         firstName: event.data.first_name ?? undefined
       });

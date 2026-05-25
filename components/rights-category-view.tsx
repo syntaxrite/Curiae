@@ -14,7 +14,7 @@ type RightsCategoryViewProps = {
 };
 
 export function RightsCategoryView({ country, category }: RightsCategoryViewProps) {
-  const result = useQuery(api.rights.getRightsByCountryAndCategory as never, { country, category });
+  const result = useQuery(api.rights.getRightsByCountryAndCategory, { country, category });
   const rights = result?.data ?? createFallbackRights(country, category);
   const title = rightsCategoryLabel(category);
   const summary = rightsCategorySummary(category);

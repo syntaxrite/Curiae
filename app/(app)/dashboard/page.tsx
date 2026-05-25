@@ -12,9 +12,9 @@ import { formatDateTime, truncate } from "@/lib/utils";
 export default function DashboardPage() {
   const { userId, isLoaded } = useAuth();
   const userKey = userId ?? "";
-  const userResult = useQuery(api.users.getUserByClerkId as never, { clerkId: userKey });
-  const queriesResult = useQuery(api.queries.getRecentQueries as never, { userId: userKey, limit: 5 });
-  const documentsResult = useQuery(api.documents.getDocumentsByUser as never, { userId: userKey, limit: 5 });
+  const userResult = useQuery(api.users.getUserByClerkId, { clerkId: userKey });
+  const queriesResult = useQuery(api.queries.getRecentQueries, { userId: userKey, limit: 5 });
+  const documentsResult = useQuery(api.documents.getDocumentsByUser, { userId: userKey, limit: 5 });
 
   const user = userResult?.data ?? null;
   const queries = queriesResult?.data ?? [];

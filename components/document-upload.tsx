@@ -18,9 +18,9 @@ type DocumentUploadProps = {
 };
 
 export function DocumentUpload({ userId, jurisdiction, onUploaded }: DocumentUploadProps) {
-  const generateUploadUrl = useMutation(api.documents.generateUploadUrl as never);
-  const saveDocument = useMutation(api.documents.saveDocument as never);
-  const analyzeDocument = useAction(api.ai.analyzeDocument as never);
+  const generateUploadUrl = useMutation(api.documents.generateUploadUrl);
+  const saveDocument = useMutation(api.documents.saveDocument);
+  const analyzeDocument = useAction(api.ai.analyzeDocument);
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
   const [analysis, setAnalysis] = useState<DocumentAnalysisResponse | null>(null);

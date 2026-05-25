@@ -13,7 +13,7 @@ export default function HistoryPage() {
   const { userId, isLoaded } = useAuth();
   const clerkId = userId ?? "";
   const [filter, setFilter] = useState<"all" | "standard" | "deep">("all");
-  const result = useQuery(api.queries.getQueriesByUser as never, { userId: clerkId, limit: 100 });
+  const result = useQuery(api.queries.getQueriesByUser, { userId: clerkId, limit: 100 });
   const queries = result?.data ?? [];
 
   const filtered = useMemo(() => {
