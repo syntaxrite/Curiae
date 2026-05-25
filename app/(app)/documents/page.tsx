@@ -1,4 +1,3 @@
-// hello
 "use client";
 
 import Link from "next/link";
@@ -8,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DocumentUpload } from "@/components/document-upload";
 import { formatDateTime, truncate } from "@/lib/utils";
-import type { Jurisdiction } from "@/lib/types";
+import type { Jurisdiction, DocumentRecord } from "@/lib/types";
 
 export default function DocumentsPage() {
   const { userId, isLoaded } = useAuth();
@@ -17,7 +16,7 @@ export default function DocumentsPage() {
   const documentsResult = useQuery(api.documents.getDocumentsByUser, { userId: clerkId, limit: 20 });
 
   const user = userResult?.data ?? null;
-  const documents = documentsResult?.data ?? [];
+  const documents: DocumentRecord[] = documentsResult?.data ?? [];
   const jurisdiction: Jurisdiction = {
     country: (user?.country as Jurisdiction["country"]) ?? "uk",
     state: user?.state ?? ""
